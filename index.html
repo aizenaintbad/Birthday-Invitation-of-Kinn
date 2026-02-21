@@ -1,0 +1,433 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Baby Boss Invitation</title> 
+ 
+<style> 
+*{ 
+  margin:0; 
+  padding:0; 
+  box-sizing:border-box; 
+  font-family: 'Poppins', sans-serif; 
+} 
+ 
+body{ 
+  height:100vh; 
+  display:flex; 
+  justify-content:center; 
+  align-items:center; 
+  background: linear-gradient(135deg,#87CEFA,#e6f3ff); 
+  overflow:hidden; 
+} 
+ 
+/* Envelope Wrapper */
+.wrapper {
+  perspective: 1000px;
+}
+
+/* Envelope */ 
+.envelope{ 
+  position:relative; 
+  width:350px; 
+  height:230px; 
+  background:#1e3c72; 
+  border-radius:0 0 10px 10px; 
+  cursor:pointer; 
+  box-shadow:0 15px 35px rgba(0,0,0,0.3); 
+} 
+ 
+/* Flap */
+.envelope::before{ 
+  content:""; 
+  position:absolute; 
+  top:0; 
+  left:0; 
+  width:0; 
+  height:0; 
+  border-top:130px solid #2a5298; 
+  border-left:175px solid transparent; 
+  border-right:175px solid transparent; 
+  transform-origin:top; 
+  transition:0.6s ease-in-out; 
+  z-index: 4;
+} 
+ 
+.envelope.open::before{ 
+  transform:rotateX(180deg); 
+  z-index: 0;
+} 
+
+/* Pocket */
+.envelope::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 115px solid transparent;
+  border-left: 175px solid #2a5298;
+  border-right: 175px solid #2a5298;
+  border-bottom: 115px solid #1e3c72;
+  z-index: 2;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Gold Seal */
+.seal {
+  position: absolute;
+  top: 110px;
+  left: 155px;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at 30% 30%, #fff9c4, gold, #fbc02d);
+  border-radius: 50%;
+  z-index: 5;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #8b4513;
+  border: 2px dashed #8b4513;
+  transition: 0.6s ease-in-out;
+  animation: seal-shine 3s infinite;
+}
+
+@keyframes seal-shine {
+  0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+  50% { box-shadow: 0 0 20px 10px rgba(255, 215, 0, 0.2); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+}
+
+.envelope.open .seal {
+  opacity: 0;
+  transform: translateY(-100px) rotateX(180deg);
+}
+ 
+/* Card */ 
+.card{ 
+  position:absolute; 
+  width:320px; 
+  height:480px; 
+  background:white; 
+  background-image: linear-gradient(90deg, transparent 95%, rgba(30, 60, 114, 0.05) 95%);
+  background-size: 15px 100%;
+  border-radius:15px; 
+  top:5px; 
+  left:15px; 
+  padding:20px; 
+  text-align:center; 
+  transform:translateY(0); 
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s; 
+  opacity:0; 
+  overflow:hidden; 
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+} 
+ 
+.envelope.open .card{ 
+  transform:translateY(-250px); 
+  opacity:1; 
+  z-index: 3;
+} 
+
+/* Suit Elements */
+.suit-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  pointer-events: none;
+}
+
+.lapel {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 80px;
+  background: #1e3c72;
+  z-index: 2;
+}
+
+.lapel-l {
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 70% 100%, 0 40%);
+}
+
+.lapel-r {
+  right: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 30% 100%);
+}
+
+.tie {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 100px;
+  background: #000;
+  z-index: 1;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+}
+
+.tie::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: #111;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+ 
+/* Header */ 
+.title{ 
+  font-size:22px; 
+  font-weight:900; 
+  color:#1e3c72; 
+  margin-top: 80px;
+  margin-bottom:5px; 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+} 
+ 
+.subtitle{ 
+  font-size:12px; 
+  margin-bottom:15px; 
+  font-weight: 600;
+  color: #555;
+} 
+ 
+/* Baby Photo */ 
+.photo-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.photo{ 
+  width:120px; 
+  height:120px; 
+  border-radius:50%; 
+  overflow:hidden; 
+  margin:0 auto; 
+  border:5px solid #1e3c72; 
+  background: #eee;
+  transition: 0.3s;
+} 
+
+.photo:hover {
+  border-color: #ffd700;
+  transform: scale(1.05);
+}
+
+.photo-hint {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: #1e3c72;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  border: 2px solid white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+ 
+.photo img{ 
+  width:100%; 
+  height:100%; 
+  object-fit:cover; 
+} 
+ 
+/* Details */ 
+.details{ 
+  font-size:14px; 
+  margin-top:10px; 
+  line-height:1.6; 
+} 
+ 
+/* Button */ 
+button{ 
+  margin-top:15px; 
+  padding:10px 20px; 
+  border:none; 
+  border-radius:30px; 
+  background:#1e3c72; 
+  color:white; 
+  cursor:pointer; 
+  transition:0.3s; 
+} 
+ 
+button:hover{ 
+  background:#2a5298; 
+  transform:scale(1.05); 
+} 
+ 
+/* Floating Clouds */ 
+.cloud{ 
+  position:absolute; 
+  background:white; 
+  border-radius:50%; 
+  opacity:0.7; 
+  animation: float 20s linear infinite; 
+} 
+ 
+.cloud1{ 
+  width:80px; 
+  height:40px; 
+  top:10%; 
+  left:-100px; 
+} 
+ 
+.cloud2{ 
+  width:100px; 
+  height:50px; 
+  top:70%; 
+  left:-150px; 
+  animation-duration:25s; 
+} 
+ 
+@keyframes float{ 
+  from{transform:translateX(0);} 
+  to{transform:translateX(120vw);} 
+} 
+ 
+/* Responsive */ 
+@media(max-width:400px){ 
+  .card{ 
+    width:280px; 
+  } 
+  .envelope {
+    width: 300px;
+  }
+  .envelope::before {
+    border-left-width: 150px;
+    border-right-width: 150px;
+  }
+  .envelope::after {
+    border-left-width: 150px;
+    border-right-width: 150px;
+  }
+  .seal {
+    left: 130px;
+  }
+} 
+</style> 
+</head> 
+ 
+<body> 
+ 
+<div class="cloud cloud1"></div> 
+<div class="cloud cloud2"></div> 
+<div class="cloud" style="width:120px; height:60px; top:40%; left:-200px; animation-duration:35s; opacity:0.5;"></div>
+<div class="cloud" style="width:70px; height:35px; top:15%; left:-150px; animation-duration:18s; opacity:0.8;"></div>
+ 
+<div class="wrapper">
+  <div class="envelope" onclick="openEnvelope(event)"> 
+    <div class="seal">B</div>
+    <div class="card" onclick="event.stopPropagation()"> 
+      <div class="suit-decoration">
+        <div class="lapel lapel-l"></div>
+        <div class="lapel lapel-r"></div>
+        <div class="tie"></div>
+      </div>
+      <div class="title">A Big Boss Celebration</div> 
+      <div class="subtitle">You're Invited to My 1st Birthday!</div> 
+   
+      <div class="photo-container" onclick="document.getElementById('photoInput').click()">
+        <div class="photo"> 
+          <img id="babyPhoto" src="C:\Users\Lebron Espera\Downloads\kinn.jpg" alt="Baby Photo"> 
+        </div> 
+        <div class="photo-hint">📷</div>
+        <input type="file" id="photoInput" style="display:none" accept="image/*" onchange="changePhoto(event)">
+      </div>
+   
+      <h2 style="color:#1e3c72; font-weight: 800; margin: 5px 0;">Kinn Marvy Ito Pastorfide</h2> 
+   
+      <div class="details"> 
+        📅 February 23 2026 <br> 
+        ⏰ 1:00 PM <br> 
+        📍 Otiraso Beach Resort <br> 
+        🎈 Our Little Baby Boss Turns One!!
+      </div> 
+   
+      <button onclick="confetti(event)">Confirm Attendance</button> 
+    </div> 
+  </div> 
+</div>
+ 
+<script> 
+function openEnvelope(event){ 
+  if (event.target.closest('.envelope') && !event.target.closest('.card')) {
+    document.querySelector(".envelope").classList.toggle("open"); 
+  }
+} 
+
+function changePhoto(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('babyPhoto').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+  }
+}
+ 
+/* Boss Theme Confetti Effect */ 
+function confetti(event){ 
+  event.stopPropagation();
+  const colors = ['#1e3c72', '#2a5298', '#ffd700', '#ffffff'];
+  const symbols = ['👔', '🍼', '💰', '💼', '⭐'];
+  
+  for(let i=0;i<60;i++){ 
+    let conf = document.createElement("div"); 
+    conf.style.position="absolute"; 
+    conf.style.zIndex = "100";
+    
+    if (Math.random() > 0.5) {
+      conf.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+      conf.style.fontSize = "20px";
+    } else {
+      conf.style.width="10px"; 
+      conf.style.height="10px"; 
+      conf.style.backgroundColor= colors[Math.floor(Math.random() * colors.length)];
+      conf.style.borderRadius="50%"; 
+    }
+    
+    conf.style.top="50%"; 
+    conf.style.left="50%"; 
+    conf.style.pointerEvents="none"; 
+    document.body.appendChild(conf); 
+ 
+    let x = (Math.random()-0.5)*window.innerWidth; 
+    let y = (Math.random()-0.5)*window.innerHeight; 
+    let rot = Math.random() * 720;
+
+    conf.animate([ 
+      {transform:"translate(-50%,-50%) scale(0) rotate(0deg)", opacity:1}, 
+      {transform:`translate(${x}px,${y}px) scale(1.5) rotate(${rot}deg)`, opacity:0} 
+    ],{ 
+      duration: 2000, 
+      easing:"ease-out" 
+    }); 
+ 
+    setTimeout(()=>conf.remove(), 2000); 
+  } 
+} 
+</script> 
+ 
+</body> 
+</html> 
